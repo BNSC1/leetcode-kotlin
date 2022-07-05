@@ -14,7 +14,7 @@ class Solution {
     }
 
     fun invert(root: TreeNode?): TreeNode? = //don't forget to specify return type if you are returning it as an expression, for edge cases like empty tree
-        root?.apply { //"?.apply" for null check
+        root?.apply { //"?.apply" for null check, if null, it will end up returning the node without further recursion
             val tmp = left
             left = right
             right = tmp //swap nodes
