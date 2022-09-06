@@ -1,6 +1,6 @@
 class MyQueue() {
     val st1 = Stack<Int>()
-    val st2 = Stack<Int>()
+    val st2 = Stack<Int>() //treat stack 2 as a "cache" for pop() action, is initialized whenever pop() is run and stack 2 is empty
     var front: Int? = null
 
     fun push(x: Int) = st1.run {
