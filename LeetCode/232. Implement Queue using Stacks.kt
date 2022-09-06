@@ -1,33 +1,26 @@
 class MyQueue() {
-    val st = Stack<Int>()
-    
-    fun push(x: Int) = st.add(x)
+    val st1 = Stack<Int>()
+    val st2 = Stack<Int>()
+    var front: Int? = null
 
-    fun pop(): Int {
-        val s = Stack<Int>() //temp stack
-        for (i in st.indices) {
-            s.add(st.pop())
-        } //pop all elements to the temp stack
-        val res = s.pop() //pop the top element of the temp stack, which was the bottom one of the main stack
-        for (i in s.indices) {
-            st.add(s.pop())
-        } //pop the remaining back to the main stack
-        return res
+    fun push(x: Int) = st1.run {
+        if (isEmpty()) front = x //assign to the front element if it is the first element for stack 1
+        add(x) //then add it to stack 1
     }
 
-    fun peek() : Int {
-        val s = Stack<Int>()
-        for (i in 0..st.size-2) {
-            s.add(st.pop())
-        } //pop elements until the bottom element
-        val res = st.peek() //peek at the bottom element
-        for (i in s.indices) {
-            st.add(s.pop())
-        } //pop back to the main stack
-        return res
+    fun pop() = st2.run {
+        if (isEmpty()) { //if stack 2 is empty
+            while (!st1.isEmpty()) add(st1.pop()) //dump all elements from stack 1 to stack 2
+        }
+        pop() //then pop an element from stack 2
     }
 
-    fun empty() = st.empty()
+    fun peek() = st2.run {
+        if(!isEmpty()) peek() //if stack 2 is not empty (ran pop() before) then peek it
+        else front //else return the front element
+    }
+
+    fun empty() = st1.empty() && st2.empty()
 
 }
 
