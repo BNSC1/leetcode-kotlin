@@ -1,21 +1,23 @@
 class Solution {
-    fun insert(i: Array<IntArray>, nI: IntArray): Array<IntArray> {
+    fun insert(Is: Array<IntArray>, nI: IntArray): Array<IntArray> {
         val res = mutableListOf<IntArray>()
-        
-        i.forEachIndexed { index, it ->
-            if (nI[1]<it[0]) { //if the new interval is before the current element, and has no overlap
-                res.add(nI) //add the new interval to the solution first
-                res.addAll(i.copyOfRange(index, i.size)) //then add the rest of the array to the solution
-                return res.toTypedArray() //return IntArray because no more calculation is required
+
+        Is.forEachIndexed { i, it ->
+            if (it[0] > nI[1]) { //when current interval is greater than the new interval, no more overlap is possible
+                res.add(nI)
+                res.addAll(Is.copyOfRange(i, Is.size))
+                return res.toTypedArray() //add new interval and the rest of intervals then return
             }
-            else if (nI[0]>it[1]) res.add(it) //if the new interval is after the current element, and has no overlap, add it without further actions
-            else { //if overlapped, get the smaller start number, and the largest end number
-                nI[0] = Math.min(it[0],nI[0])
-                nI[1] = Math.max(it[1],nI[1])
+
+            if (it[1] < nI[0]) { //when overlapping has not occurred yet
+                res.add(it) //add current interval
+            } else { //when current interval is overlapping
+                nI[0] = Math.min(it[0], nI[0])
+                nI[1] = Math.max(it[1], nI[1]) //set the new interval with the lesser start and the greater end
             }
         }
-        res.add(nI) //add to the solution if the new interval is the last element
-        
-        return res.toTypedArray() //convert to IntArray from MutableList
+        //if the new interval is the end of the array
+        res.add(nI)
+        return res.toTypedArray() //add it and return
     }
 }
