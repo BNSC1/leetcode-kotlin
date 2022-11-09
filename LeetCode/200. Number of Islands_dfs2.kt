@@ -12,7 +12,7 @@ class Solution {
         for (r in 0 until rows) {
             for (c in 0 until cols) { //loop through 2D arrays
                 if (!visited[r][c] && g[r][c] == '1') { //if the coordinate is a land and has not been visited
-                    dfs(g, r, c) //start turning the island to sea
+                    dfs(g, r, c) //start marking the island as visited
                     res++ //add result count by 1
                 }
             }
