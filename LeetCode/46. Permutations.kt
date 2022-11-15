@@ -12,7 +12,7 @@ class Solution {
                 if(tmp.contains(nums[i])) continue //ignore duplicate
                 tmp.add(nums[i]) //add number for current decision
                 backtrack(nums, tmp) //recursion for permutation for the next number
-                tmp.removeAt(tmp.size - 1) //restore to previous state for another decision after backtracking
+                tmp.removeAt(tmp.size - 1) //restore to previous state for another decision after backtracking, as in java, list is passed by reference
             }
         }
     }
