@@ -1,5 +1,5 @@
 class LRUCache(val cap: Int) {
-    val map = hashMapOf<Int, Node>() //hash map to store index of the node
+    val map = hashMapOf<Int, Node>() //hash map to pair the node with the key
     val head = Node(0, 0) //head node to link to the least recently used node
     val tail = Node(0, 0) //tail node to link to the most recently used/added node
 
@@ -18,7 +18,7 @@ class LRUCache(val cap: Int) {
     }
 
     fun put(key: Int, value: Int) {
-        if (map.containsKey(key)) { //if the key is in the hash map already, unlink it from the linked list first
+        if (key in map) { //if the key is in the hash map already, unlink it from the linked list first
             remove(map.getValue(key))
         }
         map[key] = Node(key, value) //add to the hash map
