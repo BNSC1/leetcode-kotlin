@@ -10,12 +10,12 @@ class Solution {
             }
             if (open > 0) { 
                 str.push('(')
-                generate(open-1, close) //start a branch with an open parentheses
+                generate(open-1, close) //start a branch with an open parenthes added
                 str.pop() //restore stack
             }
             if (close > open) { //if there are more closed parentheses remaining
                 str.push(')')
-                generate(open, close-1) //start a branch with a closed parentheses
+                generate(open, close-1) //start a branch with a closed parenthes added
                 str.pop() //restore stack
             }
         }
