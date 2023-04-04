@@ -15,7 +15,7 @@ class Solution {
 
         if (findSub(root, subRoot)) return true //found matching subtree
         return isSubtree(root.left, subRoot) ||
-               isSubtree(root.right, subRoot) //if not, continue to compare with the node's children
+               isSubtree(root.right, subRoot) //if not, continue to check with the node's children
     }
 
     fun findSub(root: TreeNode?, subRoot: TreeNode?): Boolean {
