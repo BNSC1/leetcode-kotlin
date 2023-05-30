@@ -14,7 +14,7 @@ class Solution {
                 }
                 val num = Integer.parseInt(s.substring(opIndex+1, nextDigit))
                 nums.push(if (s[opIndex] == '+') num else -num)
-                opIndex = nextDigit + 1
+                opIndex = nextDigit
             } else if (s[opIndex] == '*' || s[opIndex] == '/') {
                 var nextDigit = opIndex + 1
                 while (nextDigit < s.length && s[nextDigit].isDigit()) {
