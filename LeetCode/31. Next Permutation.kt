@@ -1,14 +1,14 @@
 class Solution {
     fun nextPermutation(nums: IntArray): Unit {
-        val pivot = indexOfLastPeak(nums) //get index before the peak
-        if (pivot != -1) {
-            val nextPrefix = lastIndexOfGreater(nums, nums[pivot]) //find the next greater index than threshold from end to start
-            swap(nums, pivot, nextPrefix) //swap position of the pivot and the next greater index
+        val beforePeak = beforePeakIndex(nums) //get index before the peak
+        if (beforePeak != -1) {
+            val nextPrefix = nextGreaterIndex(nums, nums[beforePeak])
+            swap(nums, beforePeak, nextPrefix)
         }
-        sort(nums, pivot + 1) //sort from peak to the end
+        sort(nums, beforePeak + 1) //sort from peak to the end
     }
 
-    fun indexOfLastPeak(nums: IntArray): Int {
+    fun beforePeakIndex(nums: IntArray): Int {
         for (i in nums.size-1 downTo 1) {
             if (nums[i - 1] < nums[i]) {
                 return i - 1
@@ -17,7 +17,7 @@ class Solution {
         return -1 //return -1 if none found
     }
 
-    fun lastIndexOfGreater(nums: IntArray, threshold: Int): Int {
+    fun nextGreaterIndex(nums: IntArray, threshold: Int): Int {
         for (i in nums.size-1 downTo 0) {
             if (threshold < nums[i]) {
                 return i
