@@ -1,35 +1,40 @@
 class Solution {
-    val parents = HashMap<String, String>() //child email: parent email
-
     fun accountsMerge(accs: List<List<String>>): List<List<String>> {
-        val owner = HashMap<String, String>() //email: owner
-        val unions = HashMap<String, TreeSet<String>>() //parent email: set of children email, TreeSet will sort elements automatically
+        val parents = HashMap<String, String>() //child email: parent email
+        val owners = HashMap<String, String>() //email: owner
+        val unions = HashMap<String, TreeSet<String>>().withDefault {TreeSet()} //parent email : child emails, TreeSet will sort children automatically
         val res = mutableListOf<List<String>>()
 
-        accs.forEach { a ->
-            for (i in 1 until a.size) {
-                parents[a[i]] = a[i] //set each email to be its own parent, including the parent itself
-                owner[a[i]] = a[0] //set owner of each email
+        fun findParent(email: String): String =
+            if (parents[email] === email) email else findParent(parents[email]!!)
+
+        accs.forEach { acc ->
+            val owner = acc[0]
+            for (i in 1 until acc.size) {
+                val email = acc[i]
+                parents[email] = email //set each email to be its own parent, including the parent itself
+                owners[email] = owner //set owner of each email
             }
         }
-        accs.forEach { a ->
-            val p = find(a[1])
-            for (i in 2 until a.size) parents[find(a[i])] = p //set other emails in the account to have the first email in the account as parent email
+        accs.forEach { acc ->
+            val parent = findParent(acc[1])
+            for (i in 2 until acc.size) {
+                val email = acc[i]
+                parents[findParent(email)] = parent
+            } //set other emails in the account to have the first email in the account as parent email
         }
-        accs.forEach { a ->
-            val p = find(a[1])
-            if (p !in unions) unions[p] = TreeSet() //new a set if the parent does not exist in the map
-            for (i in 1 until a.size) unions[p]!!.add(a[i]) //assign emails with the same parent to 1 set
+        accs.forEach { acc ->
+            val parent = findParent(acc[1])
+            for (i in 1 until acc.size) {
+                unions[parent] = unions.getValue(parent).apply {add(acc[i])}
+            } //assign emails with the same parent to 1 set
         }
-        for (p in unions.keys) {
-            val emails = LinkedList(unions[p]!!).apply { push(owner[p]) } //new a list with emails in it, then push the owner to start of it
-            res.add(emails) //add to result
+        unions.keys.forEach { parent ->
+            val emails = LinkedList(unions[parent]!!).apply {push(owners[parent])} //new a list with emails in it, then push the owner to start of it
+            res.add(emails)
         }
         return res
     }
-
-    fun find(email: String): String = // find parent email of this email
-        if (parents[email] === email) email else find(parents[email]!!)
 }
 
 /*
